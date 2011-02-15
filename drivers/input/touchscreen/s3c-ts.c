@@ -92,6 +92,13 @@ spinlock_t adc_lock = SPIN_LOCK_UNLOCKED;
 #undef TOUCHSCREEN_S3C_GET_CALIBRATION
 
 #ifdef TOUCHSCREEN_S3C_GET_CALIBRATION
+	int calibrate_count=0;
+	int calibrate_min_x=S3C_ADCDAT0_XPDATA_MASK_12BIT << ts->shift;
+	int calibrate_max_x=0;
+	int calibrate_min_y=S3C_ADCDAT1_YPDATA_MASK_12BIT << ts->shift;
+	int calibrate_max_y=0;
+#endif // TOUCHSCREEN_S3C_GET_CALIBRATION
+
 #ifdef CONFIG_S3C_TS_CALIBRATION
 	int xmin = 1090;
 	int xmax = 2854; 
@@ -101,13 +108,6 @@ spinlock_t adc_lock = SPIN_LOCK_UNLOCKED;
 	int ymax = 3040;	
 //	int ymin = 0;
 //	int ymax = S3C_ADCDAT1_YPDATA_MASK_12BIT;	// FIXME: only valid for 12bit 
-#endif // TOUCHSCREEN_S3C_GET_CALIBRATION
-
-#ifdef CONFIG_S3C_TS_CALIBRATION
-	int xmin = 0;
-	int xmax = S3C_ADCDAT0_XPDATA_MASK_12BIT;	// FIXME: only valid for 12bit 
-	int ymin = 0;
-	int ymax = S3C_ADCDAT1_YPDATA_MASK_12BIT;	// FIXME: only valid for 12bit 
 
 module_param(xmin, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
 MODULE_PARM_DESC(xmin, "S3C-TS calibration x minimum value");
