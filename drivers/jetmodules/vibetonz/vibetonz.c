@@ -58,7 +58,7 @@ static int set_vibetonz(int timeout)
 	}
 	else {
 
-		s3c6410_timer_setup(1,10,300,3);
+		s3c6410_timer_setup(1,10,150,3);
 		printk("[VIBETONZ] reserved VIBRATOR_ENABLE\n");
 		gpio_direction_output(GPIO_VIBTONE_EN, GPIO_LEVEL_LOW);
 		mdelay(1);
@@ -151,7 +151,7 @@ static void vibetonz_start(void)
 	s3c_gpio_setpull(GPIO_VIBTONE_EN, S3C_GPIO_PULL_NONE);
 
 	/* pwm timer settings */
-	s3c6410_timer_setup(1,10,300,3);
+	s3c6410_timer_setup(1,10,150,3);
 
 	
 	/* timed_output_device settings */
