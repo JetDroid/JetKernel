@@ -833,6 +833,7 @@ max8906_function_type  max8906pm[ENDOFPM] =
 
 
 
+
     {  0x78,       0x68,       0x01,       0xFE,       0x00 }, // SEQ5EN
 
     // SEQ6CNFG register
@@ -2857,11 +2858,13 @@ unsigned int pmic_tsc_read(u8 slaveaddr, u8 *cmd)
 void max8906_debug_print( void)
 {
   u8 sec,min,hour,day,month,yearm,yearl;
+  u8 CHG_CNTL1, CHG_CNTL2, CHG_IRQ1, CHG_IRQ2, CHG_IRQ1_MASK, CHG_IRQ2_MASK, CHG_STAT, BBATCNFG;
     boolean status;
     byte tscbuff;
     byte result[2];
     int voltage;
 
+  // RTC debugging
   pmic_read( MAX8906_RTC_ID, 0x00, &sec, 1);
   pmic_read( MAX8906_RTC_ID, 0x01, &min, 1);
   pmic_read( MAX8906_RTC_ID, 0x02, &hour, 1);
@@ -2870,6 +2873,25 @@ void max8906_debug_print( void)
   pmic_read( MAX8906_RTC_ID, 0x06, &yearl, 1);
   pmic_read( MAX8906_RTC_ID, 0x07, &yearm, 1);
   printk("[MAX8906]: DATE,TIME: %X.%X.%X%X, %X:%02X:%02X\n", day,month,yearm,yearl,hour,min,sec);
+
+ 
+  // charger debugging
+  pmic_read( MAX8906_GPM_ID, REG_CHG_CNTL1, &CHG_CNTL1, 1);
+  pmic_read( MAX8906_GPM_ID, REG_CHG_CNTL2, &CHG_CNTL2, 1);
+  pmic_read( MAX8906_GPM_ID, REG_CHG_IRQ1, &CHG_IRQ1, 1);
+  pmic_read( MAX8906_GPM_ID, REG_CHG_IRQ2, &CHG_IRQ2, 1);
+  pmic_read( MAX8906_GPM_ID, REG_CHG_IRQ1_MASK, &CHG_IRQ1_MASK, 1);
+  pmic_read( MAX8906_GPM_ID, REG_CHG_IRQ2_MASK, &CHG_IRQ2_MASK, 1);
+  pmic_read( MAX8906_GPM_ID, REG_CHG_STAT, &CHG_STAT, 1);
+  pmic_read( MAX8906_GPM_ID, REG_BBATTCNFG, &BBATCNFG, 1);
+  printk("[MAX8906]: REG_CHG_CNTL1: 0x%X \n", CHG_CNTL1);
+  printk("[MAX8906]: REG_CHG_CNTL2: 0x%X \n", CHG_CNTL2);
+  printk("[MAX8906]: REG_CHG_IRQ1: 0x%X \n", CHG_IRQ1);
+  printk("[MAX8906]: REG_CHG_IRQ2: 0x%X \n", CHG_IRQ2);
+  printk("[MAX8906]: REG_CHG_IRQ1_MASK: 0x%X \n", CHG_IRQ1_MASK);
+  printk("[MAX8906]: REG_CHG_IRQ2_MASK: 0x%X \n", CHG_IRQ2_MASK);
+  printk("[MAX8906]: REG_CHG_STAT: 0x%X \n", CHG_STAT);
+  printk("[MAX8906]: REG_BBATTCNFG: 0x%X \n", BBATCNFG);
 
   // here we read some couple of registers
   /* pmic_read( MAX8906_ADC_ID, 0x0, &tscbuff, 1); printk("[MAX8906 dbg]: TSC_STA_INT=0x%02X\n",tscbuff); */
