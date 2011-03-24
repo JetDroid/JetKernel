@@ -279,9 +279,9 @@ static struct platform_device sec_device_headset = {
 
 #ifdef CONFIG_TOUCHSCREEN_S3C
 static struct s3c_ts_mach_info s3c_ts_platform __initdata = {
-	.delay 			= 30000, 	//41237
+	.delay 			= 50000, 	//41237
 	.presc 			= 49,
-	.oversampling_shift	= 3,		//4
+	.oversampling_shift	= 4,		//4
 	.resol_bit 			= 12,
 	.s3c_adc_con		= ADC_TYPE_2,	
 	.panel_resistance	= 1,		// For measuring pressure
